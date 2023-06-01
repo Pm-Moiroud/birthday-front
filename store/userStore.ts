@@ -7,7 +7,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export interface UserStore {
   currentUser?: User;
   setCurrentUser: () => Promise<void>;
-  isAuthentificated: () => boolean;
 }
 const userStore: StateCreator<UserStore, [], []> = (set) => ({
   setCurrentUser: async () => {
@@ -18,9 +17,6 @@ const userStore: StateCreator<UserStore, [], []> = (set) => ({
     } catch (error) {
       console.error(error);
     }
-  },
-  isAuthentificated: () => {
-    return true;
   },
 });
 
