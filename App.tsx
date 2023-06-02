@@ -1,28 +1,44 @@
 import React from 'react';
 
-import { StatusBar } from 'expo-status-bar';
 import { NativeBaseProvider, Text, View } from 'native-base';
-import { ImageBackground } from 'react-native';
 
-import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+import { useGeneralStore } from './store';
+
+import BottomBar from './components/shared/BottomBar';
+
 import Birthday from './views/Birthday';
 import Profile from './views/Profile';
 import Setting from './views/Setting';
-import BottomBar from './components/BottomBar';
-import { useGeneralStore } from './store';
 import Signin from './views/Signin';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
 import Register from './views/Register';
-import BackgroundLayout from './components/layouts/BackgroundLayout';
-import Unautentificated from './views/Unautentificated';
+import { RootStackUnauthautentificated } from './types/Routes';
+
+import Unauthorized from './views/Unauthorized';
 
 const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackUnauthautentificated>();
+
+import { DefaultTheme } from '@react-navigation/native';
+import BackgroundLayout from './components/layouts/BackgroundLayout';
+import CardLayout from './components/layouts/CardLayout';
+
+const navTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: 'transparent',
+  },
+};
+
 export default function App() {
   const { handleUser, isAuthentificated } = useGeneralStore();
+
   React.useEffect(() => {
     handleUser();
   }, []);
@@ -30,25 +46,35 @@ export default function App() {
   return (
     <NativeBaseProvider>
       {!isAuthentificated ? (
-        <NavigationContainer>
-          <Stack.Navigator screenOptions={{}}>
-            <Stack.Screen
-              name='Unautentificated'
-              component={Unautentificated}
-              options={{
-                headerShown: false,
-              }}
-            />
-            <Stack.Screen
-              name='Signin'
-              component={Signin}
-              options={{
-                headerShown: false,
-              }}
-            />
-            <Stack.Screen name='Register' component={Register} />
-          </Stack.Navigator>
-        </NavigationContainer>
+        <BackgroundLayout>
+          <CardLayout>
+            <NavigationContainer theme={navTheme}>
+              <Stack.Navigator screenOptions={{}}>
+                <Stack.Screen
+                  name='Unauthorized'
+                  component={Unauthorized}
+                  options={{
+                    headerShown: false,
+                  }}
+                />
+                <Stack.Screen
+                  name='Signin'
+                  component={Signin}
+                  options={{
+                    headerShown: false,
+                  }}
+                />
+                <Stack.Screen
+                  name='Register'
+                  component={Register}
+                  options={{
+                    headerShown: false,
+                  }}
+                />
+              </Stack.Navigator>
+            </NavigationContainer>
+          </CardLayout>
+        </BackgroundLayout>
       ) : (
         <NavigationContainer>
           <Tab.Navigator tabBar={BottomBar}>
