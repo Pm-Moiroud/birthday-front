@@ -6,7 +6,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Formik } from 'formik';
 import { mainStyle } from '../styles/main';
 import { formikUserDefault } from '../types/Formik';
-import { useGeneralStore } from '../store';
+import useGeneralStore from '../store';
 import InputsAuth from '../components/shared/InputsAuth';
 import { usersSchema } from '../validations/usersSchema';
 
@@ -20,7 +20,12 @@ export default function Register(
   return (
     <Formik
       initialValues={formikUserDefault}
-      onSubmit={(values) => createNewUser(values)}
+      onSubmit={async (values) => {
+        const res = await createNewUser(values);
+        if (res) {
+          props.navigation.navigate('Signin');
+        }
+      }}
       validationSchema={usersSchema}
       validateOnChange={false}
       validateOnBlur={false}
@@ -34,17 +39,23 @@ export default function Register(
         setFieldError,
       }) => (
         <View style={mainStyle.pageContainer}>
-          <Ionicons
-            name='md-close'
-            size={32}
-            color='white'
-            style={mainStyle.backIcon}
-            onPress={() => props.navigation.navigate('Unauthorized')}
-          />
-
-          <Text style={[mainStyle.info, styles.infoContainer]}>
-            REGISTER NEW ACCOUNT
-          </Text>
+          <View
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}
+          >
+            <Ionicons
+              name='md-close'
+              size={32}
+              color='white'
+              style={mainStyle.backIcon}
+              onPress={() => props.navigation.navigate('Unauthorized')}
+            />
+            <Text style={[mainStyle.info, styles.infoContainer]}>REGISTER</Text>
+          </View>
           <View style={mainStyle.formContainer}>
             <InputsAuth
               handleChange={handleChange}
@@ -87,9 +98,11 @@ export default function Register(
           </View>
           <TouchableHighlight
             accessibilityLabel='register a new account'
-            style={[styles.Submitbutton]}
+            style={[mainStyle.Submitbutton]}
             underlayColor='transparent'
             delayPressIn={50}
+            // @ts-ignore-next-line
+            onPress={handleSubmit}
           >
             <Text style={styles.SubmitbuttonText}>Submit</Text>
           </TouchableHighlight>
@@ -101,7 +114,6 @@ export default function Register(
 
 const styles = StyleSheet.create({
   infoContainer: {
-    paddingTop: 60,
     width: '100%',
     color: 'white',
   },

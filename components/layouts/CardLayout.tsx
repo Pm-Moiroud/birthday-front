@@ -6,10 +6,21 @@ type CardLayoutProps = {
 };
 
 export default function CardLayout({ children }: CardLayoutProps) {
-  return <View style={styles.cardContainer}>{children}</View>;
+  return (
+    <View style={styles.mainContainer}>
+      <View style={styles.cardContainer}>{children}</View>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    height: '100%',
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   cardContainer: {
     backgroundColor: '#202A25',
     shadowOffset: { width: -2, height: 4 },

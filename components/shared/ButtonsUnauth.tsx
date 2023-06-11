@@ -41,9 +41,9 @@ const styles = StyleSheet.create({
   buttonContainer: {
     display: 'flex',
     flexDirection: 'row',
-    overflow: 'hidden',
     backgroundColor: 'transparent',
     width: '100%',
+    height: 150,
   },
   button: {
     height: '100%',

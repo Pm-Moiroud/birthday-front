@@ -1,23 +1,33 @@
 import React from 'react';
-import { StyleSheet, TextInput, TouchableHighlight, View } from 'react-native';
-import { Formik } from 'formik';
+import {
+  GestureResponderEvent,
+  StyleSheet,
+  TouchableHighlight,
+  View,
+} from 'react-native';
+import { Formik, FormikValues } from 'formik';
 
 import { Text } from 'react-native';
 import InputsAuth from '../components/shared/InputsAuth';
-import ButtonsUnauth from '../components/shared/ButtonsUnauth';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackUnauthautentificated } from '../types/Routes';
 import { mainStyle } from '../styles/main';
 
 import Ionicons from '@expo/vector-icons/Ionicons';
+import useGeneralStore from '../store';
+import { formikUserDefault } from '../types/Formik';
 
 export default function Signin(
   props: NativeStackScreenProps<RootStackUnauthautentificated, 'Signin'>
 ) {
+  const { connectUser } = useGeneralStore();
+
   return (
     <Formik
-      initialValues={{ email: '', password: '', confirmPassword: '' }}
-      onSubmit={(values) => console.log(values)}
+      initialValues={formikUserDefault}
+      onSubmit={async (values) => {
+        await connectUser(values);
+      }}
     >
       {({
         handleChange,
@@ -28,14 +38,23 @@ export default function Signin(
         setFieldError,
       }) => (
         <View style={mainStyle.pageContainer}>
-          <Ionicons
-            name='md-close'
-            size={32}
-            color='white'
-            style={mainStyle.backIcon}
-            onPress={() => props.navigation.navigate('Unauthorized')}
-          />
-          <Text style={[mainStyle.info, styles.infoContainer]}>SIGN IN</Text>
+          <View
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}
+          >
+            <Ionicons
+              name='md-close'
+              size={32}
+              color='white'
+              style={mainStyle.backIcon}
+              onPress={() => props.navigation.navigate('Unauthorized')}
+            />
+            <Text style={[mainStyle.info, styles.infoContainer]}>SIGN IN</Text>
+          </View>
           <View style={mainStyle.formContainer}>
             <InputsAuth
               handleChange={handleChange}
@@ -52,6 +71,7 @@ export default function Signin(
               values={values}
               name='password'
               label='Password*: '
+              secureTextEntry={true}
               error={errors.password}
               setError={setFieldError}
             />
@@ -60,8 +80,9 @@ export default function Signin(
             </View>
           </View>
           <TouchableHighlight
-            onPress={() => handleSubmit}
-            accessibilityLabel='register a new account'
+            // @ts-ignore
+            onPress={handleSubmit}
+            accessibilityLabel='Signin to your account'
             style={[mainStyle.Submitbutton]}
             underlayColor='transparent'
             delayPressIn={50}
@@ -76,7 +97,6 @@ export default function Signin(
 
 const styles = StyleSheet.create({
   infoContainer: {
-    paddingVertical: 50,
     width: '100%',
     color: 'white',
   },

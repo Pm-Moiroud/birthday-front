@@ -10,7 +10,7 @@ export async function getLSitem(storageKey: string): Promise<string> {
     }
   } catch (error) {
     console.error(error);
-    return '';
+    return Promise.reject(error);
   }
 }
 
@@ -22,6 +22,7 @@ export async function setLSitem(
     await AsyncStorage.setItem(storageKey, value);
   } catch (error) {
     console.error(error);
+    return Promise.reject(error);
   }
 }
 
@@ -30,5 +31,6 @@ export async function removeLSitem(storageKey: string): Promise<void> {
     await AsyncStorage.removeItem(storageKey);
   } catch (error) {
     console.error(error);
+    return Promise.reject(error);
   }
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { StyleSheet, Text, TouchableHighlight, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackUnauthautentificated } from '../types/Routes';
@@ -35,17 +35,17 @@ export default function Unauthorized(
 const styles = StyleSheet.create({
   pageContainer: {
     display: 'flex',
-    alignItems: 'center',
-    backgroundColor: '#202A25',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    height: '100%',
   },
   info: {
     fontSize: 20,
     textAlign: 'center',
     paddingHorizontal: 20,
     color: 'white',
-    marginTop: 20,
   },
   containerButtons: {
-    marginTop: 115,
+    width: '100%',
   },
 });

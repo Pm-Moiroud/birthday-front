@@ -3,8 +3,8 @@ import * as yup from 'yup';
 export const usersSchema = yup.object().shape({
   pseudo: yup
     .string()
-    .min(3, 'Pseudo must be 3 characters')
-    .max(20, 'Pseudo must be 20 characters'),
+    .min(3, 'Pseudo must be 3 characters minimum')
+    .max(20, 'Pseudo must be 20 characters maximum'),
   email: yup.string().email('Invalid email').required('Email is required'),
   password: yup.string().required('Password is required'),
   confirmPassword: yup

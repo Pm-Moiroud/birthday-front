@@ -5,9 +5,11 @@ export interface User extends TimeStamps {
   pseudo: string;
   email: string;
   password?: string;
+  canReceiveEmailNotif: boolean;
+  canReceivePushNotif: boolean;
 }
 
 export interface AuthTokens {
-  access_token: string;
-  refresh_token: string;
+  accessToken: string;
+  refreshToken: string;
 }

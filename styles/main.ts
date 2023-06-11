@@ -3,7 +3,8 @@ import { StyleSheet } from 'react-native';
 export const mainStyle = StyleSheet.create({
   pageContainer: {
     display: 'flex',
-    justifyContent: 'center',
+    height: '100%',
+    justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: '#202A25',
     position: 'relative',
@@ -43,9 +44,34 @@ export const mainStyle = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 10,
+    marginBottom: 30,
   },
   SubmitbuttonText: {
     color: 'white',
     fontSize: 20,
+  },
+  textWhite: {
+    color: 'white',
+  },
+  fontSubtitle: {
+    fontSize: 20,
+    marginBottom: 2,
+  },
+  marginBottom: {
+    marginBottom: 40,
+  },
+  textCenter: {
+    textAlign: 'center',
+  },
+  outlineButton: {
+    borderWidth: 1,
+    borderColor: 'red',
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    borderRadius: 50,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

@@ -1,12 +1,19 @@
 import { create } from 'zustand';
 import userStore, { UserStore } from './userStore';
 
-import authStore, { AuthStore } from './authStore';
+import { subscribeWithSelector } from 'zustand/middleware';
 
-export type GeneralStore = UserStore & AuthStore;
+import mainStore, { MainStore } from './mainStore';
+import birthdayStore, { BirthdayStore } from './birthdayStore';
 
-export const useGeneralStore = create<GeneralStore>()((...a) => ({
-  ...userStore(...a),
+export type GeneralStore = UserStore & MainStore & BirthdayStore;
 
-  ...authStore(...a),
-}));
+const useGeneralStore = create<GeneralStore>()(
+  subscribeWithSelector((...a) => ({
+    ...userStore(...a),
+    ...mainStore(...a),
+    ...birthdayStore(...a),
+  }))
+);
+
+export default useGeneralStore;
